@@ -3,19 +3,20 @@ LABEL maintainer="runabird36"
 
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt C:/linux/tmp/requirements.txt
-COPY ./app C:/linux/app
-WORKDIR C:/linux/app
+COPY ./requirements.txt /tmp/requirements.txt
+COPY ./app /app
+WORKDIR /app
 EXPOSE 8000
 
 RUN python -m venv /py && \
-    C:/Python39/Scripts/pip.exe install --upgrade pip && \
-    C:/Python39/Scripts/pip.exe install -r C:/linux/tmp/requirements.txt && \
+    /py/bin/pip install --upgrade pip && \
+    /py/bin/pip install -r /tmp/requirements.txt && \
+    rm -rf /tmp && \
     adduser \
         --disabled-password \
         --no-create-home \
         django-user
 
-# ENV PATH="/py/bin:$PATH"
+ENV PATH="/py/bin:$PATH"
 
 USER django-user
